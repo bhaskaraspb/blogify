@@ -20,7 +20,7 @@ class Scraper
   def get_splices
     blog_urls.collect do |blog_url|
       blog_doc = Nokogiri::HTML(open(blog_url))
-      blog = blog_doc.search("#content p:first").collect{|e| e.value}
+      splice = blog_doc.search("#content p:first").children.text
     end
   end
 end

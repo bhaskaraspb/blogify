@@ -1,0 +1,8 @@
+source 'https://rubygems.org'
+gem 'nokogiri'
+gem 'rack'
+gem 'activerecord'
+gem 'rake'
+gem 'rspec'
+gem 'sqlite3'
+gem 'pry'

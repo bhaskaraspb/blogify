@@ -20,7 +20,7 @@ describe Scraper do
                 ]}
     
     it "fetches the top five urls from the google search" do 
-      expect(scraper.get_urls).to eq(urls)
+      expect(scraper.get_urls.slice(0,5)).to eq(urls)
     end
   end 
 
@@ -33,10 +33,10 @@ describe Scraper do
 
   # end  
 
-  describe "has_content?" do 
+  describe "has_content" do 
     let(:fake_url) { "http://schoolofdata.org/handbook/recipes/scraper-extension-for-chrome/" }
     it "makes sure the site has a paragraph with text" do 
-      expect(scraper.has_content?(fake_url)).to eq(true)
+      expect(scraper.has_content(fake_url)).should_not eq(nil)
     end
   end
  

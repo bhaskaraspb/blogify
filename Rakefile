@@ -17,16 +17,9 @@ end
 # end
 
 task :seed => :environment do
-  test1 = Scraper.new("how to make friends")
-  test1.get_urls
-  test2 = Scraper.new("how to torrent")
-  test2.get_urls
 end
 
 task :console => :environment do
-  test1 = Scraper.new("how to make friends")
-  test1.get_urls
-  test2 = Scraper.new("how to torrent")
-  test2.get_urls
+  my_post = Scraper.new("How to write a blog post in 5 minutes")
   binding.pry
 end

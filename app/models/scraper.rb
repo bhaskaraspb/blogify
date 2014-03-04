@@ -1,3 +1,5 @@
+# require 'wordpress_poster.rb'
+
 class Scraper
   
   @@content_tags = ["#content", ".content", ".post-content", "article", "#mainContentColExtra", ".post-body", "main"]
@@ -28,16 +30,16 @@ class Scraper
     url.gsub("/url?q=","").split("&sa")[0]
   end
 
-    def keywords
-      keywords = term.split("+").reject { |word|
-        /\bof|\band|\bor|\bin|\bbut|\bit|\bis|\bthe|\ba|\bto/ =~ word.downcase 
-      }.join("|\\b")
+  def keywords
+    keywords = term.split("+").reject { |word|
+      /\bof|\band|\bor|\bin|\bbut|\bit|\bis|\bthe|\ba|\bto/ =~ word.downcase 
+    }.join("|\\b")
 
-      keywords = "\\b" + keywords
+    keywords = "\\b" + keywords
 
-      Regexp.new(keywords)
+    Regexp.new(keywords)
 
-    end
+  end
 
   def has_content(url, index)
     begin
@@ -80,17 +82,24 @@ class Scraper
   end
 
   def clean_content
-    File.open("blog_posts/#{@term_name}.txt", 'w') do |f|
-      f.write(@raw_content.join("").gsub(/\n+(\n+)+/, "\n\n"))
-
+    @final_content = @raw_content.join("").gsub(/\n+(\n+)+/, "\n\n")
+    File.open("blog_posts/#{@term_name}.html", 'w') do |f|
+      f.write(@final_content)
     end
+  end
+
+  def post_to_wordpress
+    wp = Rubypress::Client.new(:host => "bhaskaraspb.wordpress.com", :username => "bhaskaraspb", :password => "FAKEPASS")
+    wp.newPost(:blog_id => "1", :content => { :post_status => "publish", :post_date => Time.now, :post_content => "#{@final_content}", :post_title => "#{@original_term}" })  
   end
 
   def call
     get_urls
     get_content
     clean_content
+    post_to_wordpress
   end
 end
+
 
 # !!content.search(".content p").first && !!(content.search(".content p").first.children.text.length > 100)

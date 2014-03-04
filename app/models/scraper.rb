@@ -5,6 +5,7 @@ class Scraper
   attr_accessor :term, :blog_urls
 
   def initialize(term)
+    @original_term = term
     @term = term.downcase.gsub(" ", "+")
     @term_name = term.downcase.gsub(" ", "_")
   end
@@ -27,16 +28,16 @@ class Scraper
     url.gsub("/url?q=","").split("&sa")[0]
   end
 
-  def keywords
-    keywords = term.split("+").reject { |word|
-      /\bof|\band|\bor|\bbut|\bit|\bis|\bthe|\ba|\bto/ =~ word.downcase 
-    }.join("|\\b")
+    def keywords
+      keywords = term.split("+").reject { |word|
+        /\bof|\band|\bor|\bin|\bbut|\bit|\bis|\bthe|\ba|\bto/ =~ word.downcase 
+      }.join("|\\b")
 
-    keywords = "\\b" + keywords
+      keywords = "\\b" + keywords
 
-    Regexp.new(keywords)
+      Regexp.new(keywords)
 
-  end
+    end
 
   def has_content(url, index)
     begin
@@ -48,6 +49,7 @@ class Scraper
           if keywords =~ p_content.children.text
              content_array << p_content.children.text + "\n\n"
              puts p_content.children.text
+             puts keywords            
              break
           else
             next

@@ -1,6 +1,6 @@
 class Scraper
   
-  @@content_tags = ["#content", ".content", ".post-content", "article"]
+  @@content_tags = ["#content", ".content", ".post-content", "article", "#mainContentColExtra", ".post-body", "main"]
 
   attr_accessor :term, :blog_urls
 
@@ -27,18 +27,38 @@ class Scraper
     url.gsub("/url?q=","").split("&sa")[0]
   end
 
+  def keywords
+    keywords = term.split("+").reject { |word|
+      /\bof|\band|\bor|\bbut|\bit|\bis|\bthe|\ba|\bto/ =~ word.downcase 
+    }.join("|\\b")
+
+    keywords = "\\b" + keywords
+
+    Regexp.new(keywords)
+
+  end
+
   def has_content(url, index)
     begin
     content = Nokogiri::HTML(open(url))
     content_array = []
     @@content_tags.each do |tag|
       if content.search(tag)
-        content_array << content.search("#{tag} p").collect do |p_content|
-          p_content.children.text.split(". ")[index] if p_content.children.text.length > 100
-        end.compact.flatten
+        content.search("p").each do |p_content|
+          if keywords =~ p_content.children.text
+             content_array << p_content.children.text + "\n\n"
+             puts p_content.children.text
+             break
+          else
+            next
+          end
+        end
+        break
+      else 
+        next
       end   
     end
-    content_array
+    flat_non_nil_array = content_array.flatten.compact
     rescue OpenURI::HTTPError => e
       if e.message == '404 Not Found'
         "This page did not exist"
@@ -46,19 +66,21 @@ class Scraper
         "There was a non 404 error"
       end
     end
+    flat_non_nil_array
   end
 
   def get_content
     @raw_content = blog_urls.each_with_index.collect do |blog, index|
       puts blog
-      puts has_content(blog, index)
+      # puts has_content(blog, index)
       has_content(blog, index)
     end.compact.flatten
   end
 
   def clean_content
     File.open("blog_posts/#{@term_name}.txt", 'w') do |f|
-      f.write(@raw_content.join(". "))
+      f.write(@raw_content.join("").gsub(/\n+(\n+)+/, "\n\n"))
+
     end
   end
 

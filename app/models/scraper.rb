@@ -10,6 +10,8 @@ class Scraper
     @original_term = term
     @term = term.downcase.gsub(" ", "+")
     @term_name = term.downcase.gsub(" ", "_")
+    @blog_post = Post.new
+    @blog_post.title = term
   end
 
   def search_url
@@ -39,12 +41,22 @@ class Scraper
 
   end
 
+  def find_image(content)
+    content.search("img").each do |image| 
+      if keywords =~ image['alt'] || keywords =~ image['title']   
+        @blog_post.image = image['src']
+        break 
+      end   
+    end
+  end
+
   def has_content(url, index)
     begin
     content = Nokogiri::HTML(open(url))
     content_array = []
     @@content_tags.each do |tag|
       if content.search(tag)
+        find_image(content)
         content.search("p").each do |p_content|
           if keywords =~ p_content.children.text
              content_array << p_content.children.text + "\n\n"
@@ -95,10 +107,9 @@ class Scraper
   def call
     get_urls
     get_content
-    clean_content
-    post_to_wordpress
+    @blog_post.content = clean_content
+    @blog_post.save
+    @blog_post
+    # post_to_wordpress
   end
 end
-
-
-# !!content.search(".content p").first && !!(content.search(".content p").first.children.text.length > 100)

@@ -6,13 +6,7 @@ class App < Sinatra::Base
 
   get '/new' do 
     if Post.find_by(:search_term => params[:search]).nil?
-      s = Scraper.new(params[:search])
-      @post = Post.create.tap do |t|
-        t.search_term = params[:search]
-        t.title = params[:search]
-        t.content = s.call
-      end
-      @post.save
+      @post = Scraper.new(params[:search]).call
     else 
       @post = Post.find_by(:search_term => params[:search])
     end  

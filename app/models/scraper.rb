@@ -33,9 +33,7 @@ class Scraper
   def keywords
     keywords = term.split("+").reject { |word|
       /\bof|\band|\bor|\bin|\bbut|\bit|\bis|\bthe|\ba|\bto/ =~ word.downcase 
-    }.join("|\\b")
-
-    keywords = "\\b" + keywords
+    }.join("|\\b").insert(0,"\\b")
 
     Regexp.new(keywords)
 

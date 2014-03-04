@@ -74,16 +74,17 @@ class Scraper
   def get_content
     @raw_content = blog_urls.each_with_index.collect do |blog, index|
       puts blog
-      # puts has_content(blog, index)
       has_content(blog, index)
     end.compact.flatten
   end
 
   def clean_content
-    @final_content = @raw_content.join("").gsub(/\n+(\n+)+/, "\n\n")
-    File.open("blog_posts/#{@term_name}.html", 'w') do |f|
-      f.write(@final_content)
-    end
+    content = @raw_content.join("</p><p>").gsub(/\n+(\n+)+/, "\n\n")
+    content = "<p>" + content + "</p>"
+    # file = File.open("blog_posts/#{@term_name}.html", 'w') do |f|
+    #   f.write(content)
+    # end
+    # content
   end
 
   def post_to_wordpress

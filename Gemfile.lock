@@ -33,6 +33,8 @@ GEM
       method_source (~> 0.8)
       slop (~> 3.4)
     rack (1.5.2)
+    rack-protection (1.5.2)
+      rack
     rake (10.1.1)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
@@ -42,10 +44,17 @@ GEM
     rspec-expectations (2.14.5)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.14.6)
+    shotgun (0.9)
+      rack (>= 1.0)
+    sinatra (1.4.4)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (~> 1.3, >= 1.3.4)
     slop (3.4.7)
     sqlite3 (1.3.9)
     thread_safe (0.2.0)
       atomic (>= 1.1.7, < 2)
+    tilt (1.4.1)
     tzinfo (0.3.38)
 
 PLATFORMS
@@ -58,4 +67,6 @@ DEPENDENCIES
   rack
   rake
   rspec
+  shotgun
+  sinatra
   sqlite3

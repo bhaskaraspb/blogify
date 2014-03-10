@@ -5,7 +5,7 @@ gem 'sinatra'
 gem 'activerecord'
 gem 'rake'
 gem 'rspec'
-
+gem 'tux'
 
 gem 'sqlite3', :group => :development
 

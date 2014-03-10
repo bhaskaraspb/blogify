@@ -6,13 +6,12 @@ gem 'activerecord'
 gem 'rake'
 gem 'rspec'
 
-group :development do 
-  gem 'sqlite3'
-end
 
-group :production do 
-  gem 'pg'
-end
+gem 'sqlite3', :group => :development
+
+
+gem 'pg', :group => :production
+
 
 gem 'pry'
 gem 'rubypress'

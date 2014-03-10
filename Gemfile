@@ -5,7 +5,12 @@ gem 'sinatra'
 gem 'activerecord'
 gem 'rake'
 gem 'rspec'
-gem 'sqlite3'
+
+group :development do 
+  gem 'sqlite3'
+end
+
 gem 'pry'
 gem 'rubypress'
 gem 'shotgun'
+gem 'thin'

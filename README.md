@@ -1,18 +1,3 @@
-No views
+Blogify is an app that helps you generate professional blog posts on the fly. Just type in a set of keywords and Blogify will google the search terms, pull down content from the top search results, combine them to create a new blog post, and automatically post it to your Wordpress blog!
 
-Models
-
-Scraper.new(term)
-  (1st para from 1st result, 2nd para from 2nd result, etc)
-  ouput hash 
-
-Splicer 
-  takes in hash from Scraper
-  Creates Post objets
---> Post
-
-Post
-  saves the title and body to database
-  print method that prints out title and body
-
-ActiveRecord
+Disclaimer: Blogify is meant purely for entertainment value, and takes no responsiblity for plagiarism resulting from its use :).

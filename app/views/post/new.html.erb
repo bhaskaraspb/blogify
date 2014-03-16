@@ -1,0 +1,11 @@
+
+<div class="container" role="main">
+  <div class="row">
+     <div class="col-md-6 col-md-offset-3"> 
+      <h1><%= @post.title %></h1>
+<!--       <img src="<%#= @post.image %>"> -->
+      <%= @post.content.html_safe %>
+    </div>  
+  </div>  
+
+</div>

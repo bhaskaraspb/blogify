@@ -1,0 +1,9 @@
+LOG:  database system was shut down at 2014-03-16 15:57:53 EDT
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+FATAL:  database "blogify-rails-2_development" does not exist
+FATAL:  database "blogify-rails-2_development" does not exist
+FATAL:  lock file "postmaster.pid" already exists
+HINT:  Is another postmaster (PID 71086) running in data directory "/Users/bhaskaraspb/Desktop/Code/blogify-rails-2/blogify-rails-2_development"?
+FATAL:  database "bhaskaraspb" does not exist
+FATAL:  database "blogify-rails-2_development" does not exist
